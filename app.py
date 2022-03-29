@@ -30,3 +30,7 @@ def gallery():
 @app.route('/calendar', methods=["GET"])
 def calendar():
     return render_template("calendar.html")
+
+@app.route('/memberdata', methods=["GET", "POST"])
+def memberdata():
+    return render_template("memberdata.html")
