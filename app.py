@@ -9,7 +9,7 @@ def home():
 
 @app.route('/partnerships', methods=["GET"])
 def partnerships():
-    return render_template("patnerships.html")
+    return render_template("partnerships.html")
 
 @app.route('/minutes', methods=["GET"])
 def minutes():
@@ -34,3 +34,6 @@ def calendar():
 @app.route('/memberdata', methods=["GET", "POST"])
 def memberdata():
     return render_template("memberdata.html")
+
+if __name__ == '__main__':
+    app.run(debug=True)
