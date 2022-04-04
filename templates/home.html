@@ -1,7 +1,34 @@
-{% extends 'base.html'%} {% block title %} Home {% endblock %}
+{% extends 'base2.html'%} {% block title %} Home {% endblock %}
 
 {% block content %}
 
-<h1>This is the Home Page</h1>
+<link rel="stylesheet" href={{ url_for('static', filename='home/home.css') }}>
+
+
+
+
+<div class="announcements">
+  <table>
+    <tr>
+      <th>LATEST ANNOUNCEMENTS</th>
+    </tr>
+    <tr>
+      <a href = "#"><td>InAf Advisory</td></a>
+    </tr>
+    <tr>
+      <a href = "#"><td>ExAf Advisory</td></a>
+    </tr>
+    <tr>
+      <a href = "#"><td>ReDoMa Advisory</td></a>
+    </tr>
+    <tr>
+      <a href = "#"><td>TrePod Advisory</td></a>
+    </tr>
+    <tr>
+      <a href = "#"><td>Older Topics/Others</td></a>
+    </tr>
+  </table>
+</div>
+
 
 {% endblock %}

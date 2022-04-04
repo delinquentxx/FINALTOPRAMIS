@@ -5,8 +5,12 @@ app.config['SECRET_KEY'] = 'LIS161'
 
 @app.route('/', methods=["GET"])
 @app.route('/login')
-def home():
+def login():
     return render_template("login.html")
+
+@app.route('/home', methods=["GET"])
+def home():
+    return render_template("home.html")
 
 @app.route('/partnerships', methods=["GET"])
 def partnerships():

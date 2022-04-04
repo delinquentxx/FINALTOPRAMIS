@@ -1,7 +1,9 @@
-{% extends 'base.html'%} {% block title %} Minutes {% endblock %}
+{% extends 'base2.html'%} {% block title %} Minutes {% endblock %}
 
 {% block content %}
 
-<h1>This is the Minutes Page</h1>
+<link rel="stylesheet" href={{ url_for('static', filename='minutes/minutes.css') }}>
+
+<h1>This is the Minutes of the Meeting page</h1>
 
 {% endblock %}
