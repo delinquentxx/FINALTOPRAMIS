@@ -4,8 +4,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'LIS161'
 
 @app.route('/', methods=["GET"])
+@app.route('/login')
 def home():
-    return render_template("home.html")
+    return render_template("login.html")
 
 @app.route('/partnerships', methods=["GET"])
 def partnerships():
