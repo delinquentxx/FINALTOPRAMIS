@@ -5,8 +5,12 @@ app.config['SECRET_KEY'] = 'LIS161'
 
 @app.route('/', methods=["GET"])
 @app.route('/login')
-def home():
+def login():
     return render_template("login.html")
+
+@app.route('/home', methods=["GET"])
+def home():
+    return render_template("home.html")
 
 @app.route('/partnerships', methods=["GET"])
 def partnerships():
@@ -27,6 +31,10 @@ def registration():
 @app.route('/gallery', methods=["GET", "POST"])
 def gallery():
     return render_template("gallery.html")
+
+@app.route('/forum', methods=["GET", "POST"])
+def forum():
+    return render_template("forum.html")
 
 @app.route('/calendar', methods=["GET"])
 def calendar():
