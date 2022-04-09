@@ -32,6 +32,10 @@ def registration():
 def gallery():
     return render_template("gallery.html")
 
+@app.route('/forum', methods=["GET", "POST"])
+def forum():
+    return render_template("forum.html")
+
 @app.route('/calendar', methods=["GET"])
 def calendar():
     return render_template("calendar.html")
