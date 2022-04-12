@@ -24,6 +24,10 @@ def minutes():
 def announcements():
     return render_template("announcements.html")
 
+@app.route('/createannouncement', methods=["GET"])
+def create_announcement():
+    return render_template("createannouncement.html")
+
 @app.route('/registration', methods=["GET", "POST"])
 def registration():
     return render_template("registration.html")
