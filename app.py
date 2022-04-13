@@ -25,7 +25,7 @@ def announcements():
     return render_template("announcements.html")
 
 @app.route('/createannouncement', methods=["GET"])
-def create_announcement():
+def createannouncement():
     return render_template("createannouncement.html")
 
 @app.route('/registration', methods=["GET", "POST"])
