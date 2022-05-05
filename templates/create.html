@@ -1,0 +1,24 @@
+{% extends 'base2.html'%} {% block title %} Create {% endblock %}
+
+{% block content %}
+
+<h1>Create New Announcement</h1>
+
+<form action="#">
+      <label for="comm">Select Commitee:</label><br>
+         <select name="commitee" id="comm">
+             <option value="execomm">Executive Commitee</option>
+             <option value="inaf">Internal Affairs Commitee</option>
+             <option value="exaf">External Affairs Commitee</option>
+             <option value="redoma">Records and Documentations Commitee</option>
+             <option value="trepod">Treasury and Possesion Management</option>
+         </select>
+<br><br>
+    <label for="mess">Provide announcement:</label>
+<br>
+    <textarea name="paragraph_text" cols="50" rows="10" id="mess" placeholder="Announce something to the org.."></textarea>
+<br><br><br>
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

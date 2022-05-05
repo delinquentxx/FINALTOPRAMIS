@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from data import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'LIS161'
@@ -6,6 +7,18 @@ app.config['SECRET_KEY'] = 'LIS161'
 @app.route('/', methods=["GET"])
 @app.route('/login')
 def login():
+    return render_template("login.html")
+
+@app.route('/processing', methods=['post'])
+def processing():
+    account_SID = request.form['regstudentid']
+    account_email = request.form['regemail']
+    account_password = request.form['regpassword']
+
+    account_data = {'SID': account_SID,
+                    'email': account_email,
+                    'password': account_password}
+    insert_account(account_data)
     return render_template("login.html")
 
 @app.route('/home', methods=["GET"])
@@ -24,9 +37,10 @@ def minutes():
 def announcements():
     return render_template("announcements.html")
 
-@app.route('/createannouncement', methods=["GET"])
-def createannouncement():
-    return render_template("createannouncement.html")
+
+@app.route('/create', methods=["GET"])
+def create():
+    return render_template("create.html")
 
 @app.route('/registration', methods=["GET", "POST"])
 def registration():
