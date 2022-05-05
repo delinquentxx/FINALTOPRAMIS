@@ -2,21 +2,27 @@
 
 {% block content %}
 
+<link rel="stylesheet" href={{ url_for('static', filename='home/create/create.css') }}>
+
 <h1>Create New Announcement</h1>
 
-<form action="#">
-      <label for="comm">Select Commitee:</label><br>
-         <select name="commitee" id="comm">
-             <option value="execomm">Executive Commitee</option>
-             <option value="inaf">Internal Affairs Commitee</option>
-             <option value="exaf">External Affairs Commitee</option>
-             <option value="redoma">Records and Documentations Commitee</option>
-             <option value="trepod">Treasury and Possesion Management</option>
+<form action="{{ url_for('process_announcement') }}" id="post_an" method="post">
+
+    <label for="Date">Select Date:</label>
+    <input type="date" id="Date" name="date">
+<br><br>
+    <label for="comm">Select Committee:</label><br>
+         <select name="committee" id="comm">
+             <option id="execomm" name="execomm" value="execomm">Executive Committee</option>
+             <option id="inaf" name="inaf" value="inaf">Internal Affairs Committee</option>
+             <option id="exaf" name="exaf" value="exaf">External Affairs Committee</option>
+             <option id="redoma" name="redoma" value="redoma">Records and Documentations Committee</option>
+             <option id="trepod" name="trepod" value="trepod">Treasury and Possession Management Committee</option>
          </select>
 <br><br>
     <label for="mess">Provide announcement:</label>
 <br>
-    <textarea name="paragraph_text" cols="50" rows="10" id="mess" placeholder="Announce something to the org.."></textarea>
+    <textarea name="announcement_text" cols="50" rows="10" id="mess" placeholder="Announce something to the org.."></textarea>
 <br><br><br>
     <input type="submit" value="Submit" />
 </form>

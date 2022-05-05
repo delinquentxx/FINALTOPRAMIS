@@ -42,6 +42,18 @@ def announcements():
 def create():
     return render_template("create.html")
 
+@app.route('/process_announcement', methods=['post'])
+def process_announcement():
+    announcement_date = request.form['date']
+    announcement_committee = request.form['committee']
+    announcement_message = request.form['announcement_text']
+
+    announcement_data = {'date': announcement_date,
+                    'committee': announcement_committee,
+                    'message': announcement_message}
+    insert_announcement(announcement_data)
+    return render_template("home.html")
+
 @app.route('/registration', methods=["GET", "POST"])
 def registration():
     return render_template("registration.html")
