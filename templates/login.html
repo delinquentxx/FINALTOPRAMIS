@@ -22,7 +22,7 @@
       <input type="checkbox" class="chech-box"><span>Remember Password</span>
       <button type="submit" class="submit-btn">Log In</button>
     </form>
-    <form id="register" class="input-group">
+    <form action="{{ url_for('processing') }}" id="register" class="input-group" method="post">
       <label for="regstudentid">Student ID</label>
       <input type="text" class="input-field-register" id="regstudentid" name="regstudentid" placeholder="Enter Student ID" required>
        <label for="regemail">Email Address</label>
