@@ -37,6 +37,7 @@ def minutes():
 def announcements():
     return render_template("announcements.html")
 
+
 @app.route('/create', methods=["GET"])
 def create():
     return render_template("create.html")
