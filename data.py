@@ -1,6 +1,6 @@
 import sqlite3
 
-db_path = 'data.db'
+db_path = 'flipp.db'
 
 # Connect to DB and return Conn and Cur objects
 def connect_db(db_path):
@@ -16,6 +16,17 @@ def insert_account(account_data):
     values = (account_data['SID'],
               account_data['email'],
               account_data['password'])
+    cur.execute(query, values)
+    conn.commit()
+    conn.close()
+
+#create announcement
+def insert_announcement(announcement_data):
+    conn, cur = connect_db(db_path)
+    query = 'INSERT INTO Announcement (date, committee, message) VALUES (?,?,?)'
+    values = (announcement_data['date'],
+              announcement_data['committee'],
+              announcement_data['message'])
     cur.execute(query, values)
     conn.commit()
     conn.close()
