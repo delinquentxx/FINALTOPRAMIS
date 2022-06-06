@@ -2,8 +2,13 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href={{ url_for('static', filename='gallery/gallery.css') }}>
 
-<h1>This is the Gallery Page</h1>
+<h1>Welcome to FLIPP Gallery!</h1>
+
+<div>
+  <a class="upload" href="{{ url_for('upload_new_picture') }}">Upload New Picture</a>
+</div>
 
 {% endblock %}
