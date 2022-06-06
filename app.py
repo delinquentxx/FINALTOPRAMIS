@@ -54,6 +54,16 @@ def process_announcement():
     insert_announcement(announcement_data)
     return render_template("home.html")
 
+@app.route('/delete_announcement', methods=['GET'])
+def delete_announcement():
+    return render_template("delete_announcement.html")
+
+@app.route('/process_delete_announcement', methods=['post'])
+def process_delete_announcement():
+    announcement_id = request.form['AID']
+    process_deleting_announcement(announcement_id)
+    return render_template("home.html")
+
 @app.route('/registration', methods=["GET", "POST"])
 def registration():
     return render_template("registration.html")
