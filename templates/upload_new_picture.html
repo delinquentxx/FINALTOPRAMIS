@@ -1,0 +1,24 @@
+{% extends 'base2.html'%} {% block title %} Create {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href={{ url_for('static', filename='home/create/create.css') }}>
+
+<h1>Upload New Picture</h1>
+
+<form action="{{ url_for('process_new_picture') }}" id="upload_pic" method="post">
+
+    <label for="Date">Select Date:</label>
+    <input type="date" id="Date" name="date">
+<br><br>
+    <label for="Image">Select Committee:</label><br>
+     <input type="file" id="Image" name="image" image/png, image/gif, image/jpeg" />
+<br><br>
+    <label for="details">Provide details:</label>
+<br>
+    <textarea name="image_details" cols="50" rows="10" id="details" placeholder="Provide short description.."></textarea>
+<br><br><br>
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

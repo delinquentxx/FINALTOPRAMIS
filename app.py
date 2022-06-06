@@ -72,6 +72,26 @@ def registration():
 def gallery():
     return render_template("gallery.html")
 
+@app.route('/upload_new_picture', methods=["GET"])
+def upload_new_picture():
+    return render_template("upload_new_picture.html")
+
+@app.route('/process_new_picture', methods=['post'])
+def process_new_picture():
+    picture_date = request.form['date']
+    picture_image = request.form['image']
+    picture_details = request.form['image_details']
+
+    image_data = {'date': picture_date,
+                    'image': picture_image,
+                    'details': picture_details}
+    insert_picture(image_data)
+    return render_template("gallery.html")
+
+
+
+
+
 @app.route('/forum', methods=["GET", "POST"])
 def forum():
     return render_template("forum.html")
