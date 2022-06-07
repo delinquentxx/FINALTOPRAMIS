@@ -1,0 +1,21 @@
+{% extends 'base2.html'%} {% block title %} Home {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href={{ url_for('static', filename='dashboard_extension/dashboard.css') }}>
+
+<br><p></p>
+<div>
+  <a class="one" href="{{ url_for('create') }}">Create New Announcement</a>
+</div>
+
+<br><br><p></p>
+
+<div>
+  <a class="one" href="{{ url_for('delete_announcement') }}">Delete Announcement</a>
+</div>
+
+
+
+{% endblock %}
