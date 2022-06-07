@@ -21,9 +21,9 @@ def processing():
     insert_account(account_data)
     return render_template("login.html")
 
-@app.route('/home', methods=["GET"])
-def home():
-    return render_template("home.html")
+@app.route('/dashboard', methods=["GET"])
+def dashboard():
+    return render_template("dashboard.html")
 
 @app.route('/partnerships', methods=["GET"])
 def partnerships():
@@ -52,7 +52,7 @@ def process_announcement():
                     'committee': announcement_committee,
                     'message': announcement_message}
     insert_announcement(announcement_data)
-    return render_template("home.html")
+    return render_template("dashboard.html")
 
 @app.route('/delete_announcement', methods=['GET'])
 def delete_announcement():
@@ -62,7 +62,7 @@ def delete_announcement():
 def process_delete_announcement():
     announcement_id = request.form['AID']
     process_deleting_announcement(announcement_id)
-    return render_template("home.html")
+    return render_template("dashboard.html")
 
 @app.route('/registration', methods=["GET", "POST"])
 def registration():
@@ -100,9 +100,9 @@ def forum():
 def calendar():
     return render_template("calendar.html")
 
-@app.route('/memberdata', methods=["GET", "POST"])
-def memberdata():
-    return render_template("memberdata.html")
+@app.route('/profile', methods=["GET"])
+def profile():
+    return render_template("profile.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
