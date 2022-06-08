@@ -5,17 +5,30 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href={{ url_for('static', filename='dashboard_extension/dashboard.css') }}>
 
-<br><p></p>
-<div>
-  <a class="one" href="{{ url_for('create') }}">Create New Announcement</a>
-</div>
+<body>
 
-<br><br><p></p>
+ {% for date in announcements %}
+ <p>{{date.date}}</p>
+ {% endfor %}
+ {% for committee in announcements %}
+ <p>{{committee.committee}}</p>
+ {% endfor %}
+ {% for message in announcements %}
+ <p>{{message.message}}</p>
+ {% endfor %}
 
-<div>
-  <a class="one" href="{{ url_for('delete_announcement') }}">Delete Announcement</a>
-</div>
+
+  <br><p></p>
+  <div>
+    <a class="one" href="{{ url_for('create') }}">Create New Announcement</a>
+  </div>
+
+  <br><br><p></p>
+
+  <div>
+    <a class="one" href="{{ url_for('delete_announcement') }}">Delete Announcement</a>
+  </div>
 
 
-
+</body>
 {% endblock %}

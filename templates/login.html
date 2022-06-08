@@ -1,59 +1,23 @@
 {% extends 'base.html'%}
 
 {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='login/login.css') }}">
+<h1>This is the login page.</h1>
 
-<div class="welcome">
-  <div class="form-box">
-    <div class="button-box">
-      <div id="btn"></div>
-      <button type="button" class="toggle-btn" onclick="login()">Log In</button>
-      <button type="button" class="toggle-btn" onclick="register()">Register</button>
-    </div>
-    <div class="flippicon">
-      <img src="{{ url_for('static', filename='login/FLIPP_LOGO.png') }}">
-    </div>
-    <form id="login" class="input-group">
-      <label for="studentid">Student ID</label>
-      <input type="text" class="input-field-login" id="studentid" name="studentid" placeholder="Enter Student ID" required>
-      <label for="password">Password</label>
-      <input type="password" class="input-field-login" id="password" name="password" placeholder="Enter Password" required>
-      <input type="checkbox" class="chech-box"><span>Remember Password</span>
-      <button type="submit" class="submit-btn">Log In</button>
-    </form>
-    <form action="{{ url_for('processing') }}" id="register" class="input-group" method="post">
-      <label for="regstudentid">Student ID</label>
-      <input type="text" class="input-field-register" id="regstudentid" name="regstudentid" placeholder="Enter Student ID" required>
-       <label for="regemail">Email Address</label>
-      <input type="email" class="input-field-register" id="regemail" name="regemail" placeholder="Enter Email Address" required>
-      <label for="regpassword">Password</label>
-      <input type="password" class="input-field-register" id="regpassword" name="regpassword" placeholder="Enter Password" required>
-      <input type="checkbox" class="chech-box"><span>I agree to the terms and conditions</span>
-      <button type="submit" class="submit-btn">Register</button>
-    </form>
-  </div>
-<div/>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <label>Student ID:</label>
+    {{ form.studentid }}
+    <br><p></p>
+    <label>Password:</label>
+    {{ form.password }}
+      <br><p></p>
+    {{ form.submit (class="btn btn-primary") }}
+</form>
 
-<script>
-var x = document.getElementById("login");
-var y = document.getElementById("register");
-var z = document.getElementById("btn");
-
-function register(){
-  x.style.left = "-400px";
-  y.style.left = "50px";
-  z.style.left = "110px";
-}
-
-function login(){
-  x.style.left = "50px";
-  y.style.left = "450px";
-  z.style.left = "0px";
-}
-
-</script>
-
+<p></p>
+<a href="{{ url_for('register')}}">Don't have an account? Sign Up</a>
 
 
 {% endblock %}
