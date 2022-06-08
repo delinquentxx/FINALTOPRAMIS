@@ -1,29 +1,25 @@
 {% extends 'base2.html'%} {% block title %} Create {% endblock %}
 
 {% block content %}
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <h1>Create New Announcement</h1>
 
-<form action="{{ url_for('process_announcement') }}" id="post_an" method="post">
-
-    <label for="Date">Select Date:</label>
-    <input type="date" id="Date" name="date">
-<br><br>
-    <label for="comm">Select Committee:</label><br>
-         <select name="committee" id="comm">
-             <option id="execomm" name="execomm" value="execomm">Executive Committee</option>
-             <option id="inaf" name="inaf" value="inaf">Internal Affairs Committee</option>
-             <option id="exaf" name="exaf" value="exaf">External Affairs Committee</option>
-             <option id="redoma" name="redoma" value="redoma">Records and Documentations Committee</option>
-             <option id="trepod" name="trepod" value="trepod">Treasury and Possession Management Committee</option>
-         </select>
-<br><br>
-    <label for="mess">Provide announcement:</label>
-<br>
-    <textarea name="announcement_text" cols="50" rows="10" id="mess" placeholder="Announce something to the org.."></textarea>
-<br><br><br>
-    <input type="submit" value="Submit" />
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <label>Date:</label>
+    <br>
+    {{ form.date }}
+    <br><p></p>
+    <label>Enter Committee:</label>
+    <br>
+    {{ form.committee }}
+    <br><p></p>
+    <label>Add Message:</label>
+    <br>
+    {{ form.message }}
+    <br><p></p>
+    {{ form.submit (class="btn btn-primary") }}
 </form>
 
 {% endblock %}
