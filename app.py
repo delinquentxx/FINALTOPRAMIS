@@ -11,7 +11,7 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flipp.db'
-app.config['SECRET_KEY'] = 'LIS161'
+app.config['SECRET_KEY'] = 'dbaeb1093fa44a11b34ef90987c5312f'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -26,6 +26,12 @@ class User(db.Model, UserMixin):
     studentid = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+
+class Announcement(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(20), nullable=False)
+    committee = db.Column(db.String(30), nullable=False)
+    message = db.Column(db.String, nullable=False)
 
 class RegisterForm(FlaskForm):
     studentid = StringField(validators=[InputRequired(), Length
@@ -50,6 +56,14 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length
         (min=4, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
+
+class CreateAnnouncementForm(FlaskForm):
+    date = StringField(validators=[InputRequired(), Length
+        (min=10, max=20)], render_kw={"placeholder": "Date"})
+    committee = StringField(validators=[InputRequired()], render_kw={"placeholder": "Committee"})
+    message = StringField(validators=[InputRequired()], render_kw={"placeholder": "Message"})
+
+    submit = SubmitField("Post Announcement")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -85,24 +99,21 @@ def home():
 @app.route('/dashboard', methods=["GET"])
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    announcements = Announcement.query.all()
+    return render_template("dashboard.html", announcements=announcements)
 
 
-@app.route('/create', methods=["GET"])
+@app.route('/create', methods=['GET', 'POST'])
 def create():
-    return render_template("create.html")
+    form = CreateAnnouncementForm()
 
-@app.route('/process_announcement', methods=['post'])
-def process_announcement():
-    announcement_date = request.form['date']
-    announcement_committee = request.form['committee']
-    announcement_message = request.form['announcement_text']
+    if form.validate_on_submit():
+        new_announcement = Announcement(date=form.date.data, committee=form.committee.data, message=form.message.data)
+        db.session.add(new_announcement)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    return render_template('create.html', form=form)
 
-    announcement_data = {'date': announcement_date,
-                    'committee': announcement_committee,
-                    'message': announcement_message}
-    insert_announcement(announcement_data)
-    return render_template("dashboard.html")
 
 @app.route('/delete_announcement', methods=['GET'])
 def delete_announcement():
