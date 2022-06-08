@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1>Welcome to FLIPP.</h1>
+
+<a href="{{ url_for('login')}}">Login</a>
+<br><br>
+<a href="{{ url_for('register')}}">Register</a>
+
+{% endblock %}
