@@ -120,7 +120,6 @@ def create():
         return redirect(url_for('dashboard'))
     return render_template('create.html', form=form)
 
-
 @app.route('/delete_announcement', methods=['GET'])
 def delete_announcement():
     return render_template("delete_announcement.html")
