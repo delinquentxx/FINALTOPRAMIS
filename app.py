@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, logout_user, current_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, TextAreaField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from data import *
@@ -33,6 +33,12 @@ class Announcement(db.Model, UserMixin):
     committee = db.Column(db.String(30), nullable=False)
     message = db.Column(db.String, nullable=False)
 
+class Gallery(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(20), nullable=False)
+    image = db.Column(db.LargeBinary, nullable=False)
+    description = db.Column(db.String, nullable=False)
+
 class RegisterForm(FlaskForm):
     studentid = StringField(validators=[InputRequired(), Length
         (min=10, max=10)], render_kw={"placeholder": "Student ID"})
@@ -58,12 +64,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 class CreateAnnouncementForm(FlaskForm):
-    date = StringField(validators=[InputRequired(), Length
-        (min=10, max=20)], render_kw={"placeholder": "Date"})
-    committee = StringField(validators=[InputRequired()], render_kw={"placeholder": "Committee"})
-    message = StringField(validators=[InputRequired()], render_kw={"placeholder": "Message"})
+    date = DateField(validators=[InputRequired()], render_kw={"placeholder": "Date"})
+    committee = SelectField(choices=[('Executive Committee'), ('Internal Affairs Committee'), ('External Affairs Committee'), ('Records and Documentations Management Committee'), ('Treasury and Possessions Development Committee')], validators=[InputRequired()], render_kw={"placeholder": "Committee"})
+    message = TextAreaField(validators=[InputRequired()], render_kw={"placeholder": "Message"})
 
     submit = SubmitField("Post Announcement")
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -125,7 +131,6 @@ def process_delete_announcement():
     process_deleting_announcement(announcement_id)
     return render_template("dashboard.html")
 
-
 @app.route('/minutes', methods=["GET"])
 @login_required
 def minutes():
@@ -136,37 +141,33 @@ def minutes():
 def gallery():
     return render_template("gallery.html")
 
-@app.route('/upload_new_picture', methods=["GET"])
-def upload_new_picture():
-    return render_template("upload_new_picture.html")
+@app.route('/upload_picture', methods=['GET', 'POST'])
+def upload_picture():
 
-@app.route('/process_new_picture', methods=['post'])
-def process_new_picture():
-    picture_date = request.form['date']
-    picture_image = request.form['image']
-    picture_details = request.form['image_details']
+    if request.method == 'POST':
+        file = request.files['image'].read()
+        date = request.form['date']
+        description = request.form['description']
 
-    image_data = {'date': picture_date,
-                    'image': picture_image,
-                    'details': picture_details}
-    insert_picture(image_data)
-    return render_template("gallery.html")
+        new_upload = Gallery(date=date, image=file, description=description)
+        db.session.add(new_upload)
+        db.session.commit()
+        return redirect(url_for('gallery'))
+
+
+    return render_template('upload_picture.html')
+
 
 @app.route('/forum', methods=["GET", "POST"])
 @login_required
 def forum():
     return render_template("forum.html")
 
-@app.route('/calendar', methods=["GET"])
-@login_required
-def calendar():
-    return render_template("calendar.html")
 
 @app.route('/profile', methods=["GET"])
 @login_required
 def profile():
     return render_template("profile.html")
-
 
 
 @app.route('/logout', methods=['GET', 'POST'])
