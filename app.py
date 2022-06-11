@@ -84,6 +84,8 @@ def login():
 
     return render_template('login.html', form=form)
 
+
+#registers users accessing the webapp the first time
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -101,14 +103,14 @@ def register():
 def home():
     return render_template("home.html")
 
-
+# main page after user logs in
 @app.route('/dashboard', methods=["GET"])
 @login_required
 def dashboard():
     announcements = Announcement.query.all()
     return render_template("dashboard.html", announcements=announcements)
 
-
+# processes announcements 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     form = CreateAnnouncementForm()
@@ -156,19 +158,20 @@ def upload_picture():
 
     return render_template('upload_picture.html')
 
-
+# routes to forum page 
 @app.route('/forum', methods=["GET", "POST"])
 @login_required
 def forum():
     return render_template("forum.html")
 
 
+# routes to profile page 
 @app.route('/profile', methods=["GET"])
 @login_required
 def profile():
     return render_template("profile.html")
 
-
+# logout functionality
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():

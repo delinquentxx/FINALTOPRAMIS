@@ -3,18 +3,25 @@
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-<h1>This is the login page.</h1>
+<div class="pt-5"></div>
+<h1 class="text-left">Welcome to the Login Page</h1>
+<div class="container center-block">
+  <div class="col-md-5 mx-auto">
+    <div class="card card-body">
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <label>Student ID:</label>
+        {{ form.studentid }}
+        <br><p></p>
+        <label>Password:</label>
+        {{ form.password }}
+          <br><p></p>
+        {{ form.submit (class="btn btn-primary") }}
+    </form>
+    </div>
+  </div>  
+</div>
 
-<form method="POST" action="">
-    {{ form.hidden_tag() }}
-    <label>Student ID:</label>
-    {{ form.studentid }}
-    <br><p></p>
-    <label>Password:</label>
-    {{ form.password }}
-      <br><p></p>
-    {{ form.submit (class="btn btn-primary") }}
-</form>
 
 <p></p>
 <a href="{{ url_for('register')}}">Don't have an account? Sign Up</a>

@@ -6,25 +6,25 @@
 <link rel="stylesheet" href={{ url_for('static', filename='dashboard_extension/dashboard.css') }}>
 
 <body>
-<h2>Announcements!</h2>
-<br>
-
- {% for announcement in announcements %}
- <p>{{ announcement.id }} - {{ announcement.date }} - {{ announcement.committee }} - {{ announcement.message }} </p>
- {% endfor %}
+  <div class="text-center"><h1>Welcome User!</h1></div>
+  <div class="text-center">
+    <p><i> Here you will find relevant information for members of UP FLIPP.</i></p>
+  </div>
+  <div class="container" margin-left="10px">
+    <h2>Announcements</h2>
+  </div>  
+ <div class="container" margin-left="10px">
+  {% for announcement in announcements %}
+  <p>{{ announcement.id }} - {{ announcement.date }} - {{ announcement.committee }} - {{ announcement.message }} </p>
+  {% endfor %}
+ </div>
 
 
   <br><p></p>
-  <div>
+  <div class="container" margin-left="10px">
     <a class="one" href="{{ url_for('create') }}">Create New Announcement</a>
-  </div>
-
-  <br><br><p></p>
-
-<div>
     <a class="one" href="{{ url_for('delete_announcement') }}">Delete Announcement</a>
-</div>-->
-
+  </div>
 
 </body>
 {% endblock %}
