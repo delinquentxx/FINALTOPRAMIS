@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, logout_user, current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, TextAreaField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from io import BytesIO
+
 from data import *
 
 app = Flask(__name__)
@@ -36,8 +38,16 @@ class Announcement(db.Model, UserMixin):
 class Gallery(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(20), nullable=False)
+    filename = db.Column(db.String(30), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
     description = db.Column(db.String, nullable=False)
+
+class Minutes(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(20), nullable=False)
+    filename = db.Column(db.String(30), nullable=False)
+    file = db.Column(db.LargeBinary, nullable=False)
+    details = db.Column(db.String, nullable=False)
 
 class RegisterForm(FlaskForm):
     studentid = StringField(validators=[InputRequired(), Length
@@ -69,6 +79,7 @@ class CreateAnnouncementForm(FlaskForm):
     message = TextAreaField(validators=[InputRequired()], render_kw={"placeholder": "Message"})
 
     submit = SubmitField("Post Announcement")
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -120,6 +131,7 @@ def create():
         return redirect(url_for('dashboard'))
     return render_template('create.html', form=form)
 
+
 @app.route('/delete_announcement', methods=['GET'])
 def delete_announcement():
     return render_template("delete_announcement.html")
@@ -127,28 +139,25 @@ def delete_announcement():
 @app.route('/process_delete_announcement', methods=['post'])
 def process_delete_announcement():
     announcement_id = request.form['AID']
-    process_deleting_announcement(announcement_id)
-    return render_template("dashboard.html")
-
-@app.route('/minutes', methods=["GET"])
-@login_required
-def minutes():
-    return render_template("minutes.html")
+    db.session.delete(announcement_id)
+    db.session.commit()
+    return redirect(url_for('dashboard'))
 
 @app.route('/gallery', methods=["GET", "POST"])
 @login_required
 def gallery():
-    return render_template("gallery.html")
+    pictures = Gallery.query.all()
+    return render_template("gallery.html", pictures=pictures)
 
 @app.route('/upload_picture', methods=['GET', 'POST'])
 def upload_picture():
 
     if request.method == 'POST':
-        file = request.files['image'].read()
+        file = request.files['image']
         date = request.form['date']
         description = request.form['description']
 
-        new_upload = Gallery(date=date, image=file, description=description)
+        new_upload = Gallery(date=date, filename=file.filename, image=file.read(), description=description)
         db.session.add(new_upload)
         db.session.commit()
         return redirect(url_for('gallery'))
@@ -156,12 +165,44 @@ def upload_picture():
 
     return render_template('upload_picture.html')
 
+@app.route('/download-picture/<int:gallery_id>', methods=['GET', 'POST'])
+def download_picture(gallery_id):
+    image = Gallery.query.filter_by(id=gallery_id).first()
+    return send_file(BytesIO(image.image), attachment_filename=image.filename, as_attachment=True)
 
-@app.route('/forum', methods=["GET", "POST"])
+@app.route('/delete-picture/<int:gallery_id>', methods=['GET', 'POST'])
+def delete_picture(gallery_id):
+    picture = Gallery.query.get_or_404(gallery_id)
+    db.session.delete(picture)
+    db.session.commit()
+    return redirect(url_for('gallery'))
+
+@app.route('/minutes', methods=["GET"])
 @login_required
-def forum():
-    return render_template("forum.html")
+def minutes():
+    files = Minutes.query.all()
+    return render_template("minutes.html", files=files)
 
+@app.route('/upload_minutes', methods=['GET', 'POST'])
+def upload_minutes():
+
+    if request.method == 'POST':
+        file = request.files['file']
+        date = request.form['date']
+        details = request.form['details']
+
+        new_upload = Minutes(date=date, filename=file.filename, file=file.read(), details=details)
+        db.session.add(new_upload)
+        db.session.commit()
+        return redirect(url_for('minutes'))
+
+
+    return render_template('upload_minute.html')
+
+@app.route('/download-file/<int:file_id>', methods=['GET', 'POST'])
+def download_file(file_id):
+    file = Minutes.query.filter_by(id=file_id).first()
+    return send_file(BytesIO(file.file), attachment_filename=file.filename, as_attachment=True)
 
 @app.route('/profile', methods=["GET"])
 @login_required
