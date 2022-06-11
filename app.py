@@ -6,12 +6,15 @@ from wtforms import StringField, PasswordField, SubmitField, DateField, SelectFi
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from io import BytesIO
+from logging import FileHandler,WARNING
 
 from data import *
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+file_handler = FileHandler('error.txt')
+file_handler.setLevel(WARNING)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flipp.db'
 app.config['SECRET_KEY'] = 'dbaeb1093fa44a11b34ef90987c5312f'
 

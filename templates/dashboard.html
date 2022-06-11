@@ -10,7 +10,21 @@
 <br>
 
  {% for announcement in announcements %}
- <p>{{ announcement.id }} - {{ announcement.date }} - {{ announcement.committee }} - {{ announcement.message }} </p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Committee</th>
+        <th>Message</th>
+    </tr>
+    <tr>
+        <td>{{ announcement.id }}</td>
+        <td>{{ announcement.date }}</td>
+        <td>{{ announcement.committee }}</td>
+        <td>{{ announcement.message }}</td>
+    </tr>
+</table>
+<!-- <p>{{ announcement.id }} - {{ announcement.date }} - {{ announcement.committee }} - {{ announcement.message }} </p>-->
  {% endfor %}
 
 
